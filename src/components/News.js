@@ -8,7 +8,6 @@ export default class News extends Component {
     this.state = {
       articles: [],
       loading: false,
-      apiStatus: "",
       totalResults: 0, // total no. of news from api
       totalPage: 0, // total no. pages i.e math.ceil(totalresult / pagesize)
       page: 1,
@@ -25,7 +24,6 @@ export default class News extends Component {
     console.log(parsedData);
     this.setState({
       articles: parsedData.articles,
-      apiStatus: parsedData.status,
       totalResults: parsedData.totalResults,
       totalPage: Math.ceil(parsedData.totalResults / this.state.pageSize),
     });
