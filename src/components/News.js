@@ -8,6 +8,9 @@ export default class News extends Component {
     this.state = {
       articles: [],
       loading: false,
+      apiStatus: "",
+      totalResults: 0, // total no. of news from api
+      totalPage: 0, // total no. pages i.e math.ceil(totalresult / pagesize)
       page: 1,
       pageSize: 21,
     };
@@ -22,6 +25,9 @@ export default class News extends Component {
     console.log(parsedData);
     this.setState({
       articles: parsedData.articles,
+      apiStatus: parsedData.status,
+      totalResults: parsedData.totalResults,
+      totalPage: Math.ceil(parsedData.totalResults / this.state.pageSize),
     });
   }
 
@@ -39,7 +45,13 @@ export default class News extends Component {
   };
 
   handleNextClick = async () => {
-    if (this.state.page + 1 > Math.ceil(this.state.totalResults / 21)) {
+    if (
+      // this.state.page + 1 >
+      // Math.ceil(this.state.totalResults / this.state.pageSize)
+      this.state.page + 1 >
+      this.state.totalPage
+    ) {
+      console.log("No more page to view");
     } else {
       let curl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=9af0317e1b6547e0b370fceeaacd1c9f&pageSize=${
         this.state.pageSize
@@ -82,6 +94,7 @@ export default class News extends Component {
             &larr; Previous
           </button>
           <button
+            disabled={this.state.totalPage < this.state.page + 1}
             type="button"
             className="btn btn-sm btn-dark"
             onClick={this.handleNextClick}
