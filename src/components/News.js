@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
+import propTypes from "prop-types";
 
 export default class News extends Component {
+  // default prop if props is not passed
+  static defaultProps = {
+    country: "in",
+    pageSize: 9,
+    category: "general",
+  };
+  //props datatype
+  static propTypes = {
+    country: propTypes.string,
+    pageSize: propTypes.number,
+    category: propTypes.string,
+  };
+
   constructor() {
     console.log("construtor");
     super();
@@ -16,7 +30,7 @@ export default class News extends Component {
 
   async componentDidMount() {
     console.log("CDM");
-    let curl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${this.state.page}`;
+    let curl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${this.state.page}`;
     this.setState({ loading: true });
     let data = await fetch(curl);
     let parsedData = await data.json();
@@ -29,9 +43,11 @@ export default class News extends Component {
   }
 
   handlePrevClick = async () => {
-    let curl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${
-      this.props.apiKey
-    }&pageSize=${this.props.pageSize}&page=${this.state.page - 1}`;
+    let curl = `https://newsapi.org/v2/top-headlines?country=${
+      this.props.country
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${
+      this.state.page - 1
+    }`;
 
     this.setState({ loading: true });
     let data = await fetch(curl);
@@ -44,9 +60,11 @@ export default class News extends Component {
   };
 
   handleNextClick = async () => {
-    let curl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${
-      this.props.apiKey
-    }&pageSize=${this.props.pageSize}&page=${this.state.page + 1}`;
+    let curl = `https://newsapi.org/v2/top-headlines?country=${
+      this.props.country
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${
+      this.state.page + 1
+    }`;
 
     this.setState({ loading: true });
     let data = await fetch(curl);
