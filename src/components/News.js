@@ -45,9 +45,9 @@ export default class News extends Component {
   handlePrevClick = async () => {
     let curl = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
-    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${
-      this.state.page - 1
-    }`;
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${
+      this.props.pageSize
+    }&page=${this.state.page - 1}`;
 
     this.setState({ loading: true });
     let data = await fetch(curl);
@@ -62,9 +62,9 @@ export default class News extends Component {
   handleNextClick = async () => {
     let curl = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
-    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${
-      this.state.page + 1
-    }`;
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${
+      this.props.pageSize
+    }&page=${this.state.page + 1}`;
 
     this.setState({ loading: true });
     let data = await fetch(curl);
@@ -91,6 +91,9 @@ export default class News extends Component {
                     description={element.description}
                     imageUrl={element.urlToImage}
                     url={element.url}
+                    author={element.author}
+                    date={element.publishedAt}
+                    source={element.source.name}
                   />
                 </div>
               );
