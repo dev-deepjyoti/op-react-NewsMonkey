@@ -12,12 +12,12 @@ export default class NewsItem extends Component {
             className="position-absolute top-0 translate-middle badge rounded-pill bg-danger"
             style={{ left: "80%", zIndex: "1" }}
           >
-            <small> {source}</small>
+            <small> {source ? source : "NewMonkey"}</small>
           </span>
           <img
             src={imageUrl ? imageUrl : noimage}
             className="card-img-top"
-            alt="..."
+            alt="noimage"
           />
           <div className="card-body">
             <h5 className="card-title">{title ? title : "Title Missing!"}</h5>
