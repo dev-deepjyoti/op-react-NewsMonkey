@@ -23,7 +23,6 @@ export default class News extends Component {
   };
 
   constructor(props) {
-    console.log("construtor");
     super(props);
     this.state = {
       articles: [],
@@ -44,7 +43,7 @@ export default class News extends Component {
       this.props.setProgress(40);
       let parsedData = await data.json();
       this.props.setProgress(70);
-      console.log(parsedData);
+
       this.setState({
         articles: parsedData.articles,
         totalResults: parsedData.totalResults,
@@ -58,16 +57,20 @@ export default class News extends Component {
   }
 
   async componentDidMount() {
-    console.log("CDM");
     this.updateNews();
   }
 
   fetchMoreData = async () => {
+    let curl = `https://newsapi.org/v2/top-headlines?country=${
+      this.props.country
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${
+      this.props.pageSize
+    }&page=${this.state.page + 1}`;
+
     this.setState({ page: this.state.page + 1 });
-    let curl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&pageSize=${this.props.pageSize}&page=${this.state.page}`;
+
     let data = await fetch(curl);
     let parsedData = await data.json();
-    console.log(parsedData);
     this.setState({
       articles: this.state.articles.concat(parsedData.articles),
       totalResults: parsedData.totalResults,
@@ -75,10 +78,9 @@ export default class News extends Component {
   };
 
   render() {
-    console.log("render");
     return (
       <>
-        <h2 className="text-center my-3">
+        <h2 className="text-center" style={{ marginTop: "90px" }}>
           NewsMonkey - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
           Headlines
         </h2>
